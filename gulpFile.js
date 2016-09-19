@@ -2,7 +2,7 @@
 
 const srcJs = './src';
 const dstJs = './dist';
-
+const md5Js = './node_modules/blueimp-md5/js/md5.js';
 
 const gulp = require('gulp');
 const del = require('del');
@@ -21,7 +21,7 @@ gulp.task('clean-js', function() {
 });
 
 gulp.task('build-js', ['clean-js'], function() {
-    return gulp.src(['./vendor/blueimp-md5/js/md5.js', srcJs + '/*.js'])
+    return gulp.src([md5Js, srcJs + '/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat('flowerpassword.js'))
         .pipe(gulp.dest(dstJs + '/'))
@@ -29,15 +29,13 @@ gulp.task('build-js', ['clean-js'], function() {
         .pipe(rename({
             extname: '.min.js'
         }))
-        .pipe(sourcemaps.write('/', {
+        .pipe(sourcemaps.write('.', {
             addComment: false
         }))
         .pipe(gulp.dest(dstJs + '/'));
 });
 
-gulp.task('default', ['build-js'], function() {
-    return console.log('Building task done.');
-});
+gulp.task('default', ['build-js'], function() {});
 
 gulp.task('watch', function() {
     return gulp.watch([srcJs + '/**/*.js'], ['build-js']).on('change', function(event) {
