@@ -1,0 +1,33 @@
+{
+  "name": "flowerpassword.js",
+  "title": "flowerpassword.js",
+  "description": "Flower Password implementation for JavaScript",
+  "version": "1.0.0",
+  "main": "dist/flowerpassword.js",
+  "homepage": "https://flowerpassword.com",
+  "author": {
+    "name": "xLsDg",
+    "url": "https://xlsdg.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xlsdg/flowerpassword.js.git"
+  },
+  "keywords": [
+    "huami",
+    "flowerpassword",
+    "javascript",
+    "browser",
+    "library"
+  ],
+  "bugs": {
+    "url": "https://github.com/xlsdg/flowerpassword.js/issues"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "build": "npm install && gulp",
+    "start": "gulp watch"
+  }
+}
