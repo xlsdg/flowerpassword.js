@@ -1,0 +1,42 @@
+{
+  "name": "flowerpassword.js",
+  "description": "Flower Password implementation for JavaScript",
+  "version": "1.0.0",
+  "main": [
+    "dist/flowerpassword.js"
+  ],
+  "dependencies": {
+    "blueimp-md5": "^2.3.1"
+  },
+  "devDependencies": {},
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "huami",
+    "flowerpassword",
+    "javascript",
+    "browser",
+    "library",
+    "node"
+  ],
+  "authors": [
+    "xLsDg <xlsdg@qq.com>"
+  ],
+  "homepage": "https://github.com/xlsdg/flowerpassword.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xlsdg/flowerpassword.js.git"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": false
+}

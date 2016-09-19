@@ -3,3 +3,4 @@ node_modules/
 #entry/
 npm-debug.log
 .idea/
+vendor/

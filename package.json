@@ -4,7 +4,7 @@
   "description": "Flower Password implementation for JavaScript",
   "version": "1.0.0",
   "main": "dist/flowerpassword.js",
-  "homepage": "https://flowerpassword.com",
+  "homepage": "https://github.com/xlsdg/flowerpassword.js",
   "author": {
     "name": "xLsDg",
     "url": "https://xlsdg.org"
@@ -18,16 +18,26 @@
     "flowerpassword",
     "javascript",
     "browser",
-    "library"
+    "library",
+    "node"
   ],
   "bugs": {
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "blueimp-md5": "^2.3.1"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0"
+  },
   "scripts": {
-    "build": "npm install && gulp",
+    "build": "npm install && bower install && gulp",
     "start": "gulp watch"
   }
 }
