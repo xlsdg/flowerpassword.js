@@ -4,11 +4,14 @@
     "description": "Flower Password implementation for JavaScript",
     "version": "1.0.0",
     "main": "dist/flowerpassword.js",
+    "files": [
+        "dist/flowerpassword.js",
+        "dist/flowerpassword.min.js",
+        "dist/flowerpassword.min.js.map",
+        "src"
+    ],
     "homepage": "https://github.com/xlsdg/flowerpassword.js",
-    "author": {
-        "name": "xLsDg",
-        "url": "https://xlsdg.org"
-    },
+    "author": "xLsDg <xlsdg@qq.com> (https://blog.xlsdg.org/)",
     "repository": {
         "type": "git",
         "url": "https://github.com/xlsdg/flowerpassword.js.git"
