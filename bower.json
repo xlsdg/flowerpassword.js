@@ -1,7 +1,7 @@
 {
     "name": "flowerpassword.js",
     "description": "Flower Password implementation for JavaScript",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "main": [
         "dist/flowerpassword.js"
     ],

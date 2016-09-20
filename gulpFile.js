@@ -1,8 +1,7 @@
 'use strict';
 
-const srcJs = './src';
-const dstJs = './dist';
-const md5Js = './node_modules/blueimp-md5/js/md5.js';
+const srcPath = './src';
+const dstPath = './dist';
 
 const gulp = require('gulp');
 const del = require('del');
@@ -11,20 +10,18 @@ const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
-const concat = require('gulp-concat');
+const together = require('gulp-together');
 
 
-gulp.task('clean-js', function() {
-    return del([dstJs + '/**/*.*'], {
-        dryRun: true
-    });
+gulp.task('clean-all', function() {
+    return del([dstPath + '/**', '!' + dstPath]);
 });
 
-gulp.task('build-js', ['clean-js'], function() {
-    return gulp.src([md5Js, srcJs + '/*.js'])
+gulp.task('default', ['clean-all'], function() {
+    return gulp.src([srcPath + '/*.js'])
         .pipe(sourcemaps.init())
-        .pipe(concat('flowerpassword.js'))
-        .pipe(gulp.dest(dstJs + '/'))
+        .pipe(together(['blueimp-md5']))
+        .pipe(gulp.dest(dstPath + '/'))
         .pipe(uglify())
         .pipe(rename({
             extname: '.min.js'
@@ -32,13 +29,11 @@ gulp.task('build-js', ['clean-js'], function() {
         .pipe(sourcemaps.write('.', {
             addComment: false
         }))
-        .pipe(gulp.dest(dstJs + '/'));
+        .pipe(gulp.dest(dstPath + '/'));
 });
 
-gulp.task('default', ['build-js'], function() {});
-
 gulp.task('watch', function() {
-    return gulp.watch([srcJs + '/**/*.js'], ['build-js']).on('change', function(event) {
+    return gulp.watch([srcPath + '/**/*.js'], ['default']).on('change', function(event) {
         console.log('Type: ' + event.type);
         console.log('Path: ' + event.path);
     });

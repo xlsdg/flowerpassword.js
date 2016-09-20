@@ -1,45 +1,46 @@
 {
-    "name": "flowerpassword.js",
-    "title": "flowerpassword.js",
-    "description": "Flower Password implementation for JavaScript",
-    "version": "1.0.1",
-    "main": "dist/flowerpassword.js",
-    "files": [
-        "dist/flowerpassword.js",
-        "dist/flowerpassword.min.js",
-        "dist/flowerpassword.min.js.map",
-        "src"
-    ],
-    "homepage": "https://github.com/xlsdg/flowerpassword.js",
-    "author": "xLsDg <xlsdg@qq.com> (https://blog.xlsdg.org/)",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/xlsdg/flowerpassword.js.git"
-    },
-    "keywords": [
-        "huami",
-        "flowerpassword",
-        "javascript",
-        "browser",
-        "library",
-        "node"
-    ],
-    "bugs": {
-        "url": "https://github.com/xlsdg/flowerpassword.js/issues"
-    },
-    "license": "MIT",
-    "dependencies": {},
-    "devDependencies": {
-        "blueimp-md5": "^2.3.1",
-        "del": "^2.2.2",
-        "gulp": "^3.9.1",
-        "gulp-concat": "^2.6.0",
-        "gulp-rename": "^1.2.2",
-        "gulp-sourcemaps": "^1.6.0",
-        "gulp-uglify": "^2.0.0"
-    },
-    "scripts": {
-        "build": "npm install && gulp",
-        "start": "gulp watch"
-    }
+  "name": "flowerpassword.js",
+  "title": "flowerpassword.js",
+  "description": "Flower Password implementation for JavaScript",
+  "version": "1.0.2",
+  "main": "dist/flowerpassword.js",
+  "files": [
+    "dist/flowerpassword.js",
+    "dist/flowerpassword.min.js",
+    "dist/flowerpassword.min.js.map",
+    "src"
+  ],
+  "homepage": "https://github.com/xlsdg/flowerpassword.js",
+  "author": "xLsDg <xlsdg@qq.com> (https://blog.xlsdg.org/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xlsdg/flowerpassword.js.git"
+  },
+  "keywords": [
+    "huami",
+    "flowerpassword",
+    "javascript",
+    "browser",
+    "library",
+    "node"
+  ],
+  "bugs": {
+    "url": "https://github.com/xlsdg/flowerpassword.js/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "blueimp-md5": "^2.3.1"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-together": "^0.0.2",
+    "gulp-uglify": "^2.0.0"
+  },
+  "scripts": {
+    "build": "npm install && gulp",
+    "start": "gulp watch"
+  }
 }
