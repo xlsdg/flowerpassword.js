@@ -1,0 +1,6 @@
+{
+  "name": "Flowerpassword.js",
+  "tagline": "Flower Password implementation for JavaScript.",
+  "body": "## Installation\r\n\r\n```\r\n$ npm install xlsdg/flowerpassword.js\r\n```\r\n\r\n\r\n## Usage\r\n\r\nInclude the (minified) JavaScript script:\r\n\r\n``` html\r\n<script src=\"flowerpassword.min.js\"></script>\r\n```\r\n\r\nThe **fpCode** method:\r\n\r\n``` html\r\nvar code = fpCode(\"password\", \"key\", 16);\r\n```\r\n\r\n# License\r\n\r\nMIT\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
