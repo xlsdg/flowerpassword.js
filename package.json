@@ -28,10 +28,9 @@
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
   "license": "MIT",
-  "dependencies": {
-    "blueimp-md5": "^2.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "blueimp-md5": "^2.3.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
