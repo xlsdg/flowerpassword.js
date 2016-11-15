@@ -11,6 +11,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const together = require('gulp-together');
+const babel = require('gulp-babel');
 
 
 gulp.task('clean-all', function() {
@@ -20,6 +21,9 @@ gulp.task('clean-all', function() {
 gulp.task('default', ['clean-all'], function() {
     return gulp.src([srcPath + '/*.js'])
         .pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(together(['blueimp-md5']))
         .pipe(gulp.dest(dstPath + '/'))
         .pipe(uglify())
