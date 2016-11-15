@@ -2,7 +2,7 @@
   "name": "flowerpassword.js",
   "title": "flowerpassword.js",
   "description": "Flower Password implementation for JavaScript",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/flowerpassword.js",
   "files": [
     "dist/flowerpassword.js",
