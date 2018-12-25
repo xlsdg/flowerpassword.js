@@ -1,27 +1,21 @@
 # flowerpassword.js
-Flower Password implementation for JavaScript.
+
+> Flower Password implementation for JavaScript.
 
 ## Installation
 
+```bash
+$ npm install --save flowerpassword.js
 ```
-$ npm install xlsdg/flowerpassword.js
-```
-
 
 ## Usage
 
-Include the (minified) JavaScript script:
+```js
+import fpCode from 'flowerpassword.js';
 
-``` html
-<script src="flowerpassword.min.js"></script>
+console.log(fpCode('password', 'key', 16));
 ```
 
-The **fpCode** method:
-
-``` html
-var code = fpCode("password", "key", 16);
-```
-
-# License
+## License
 
 MIT

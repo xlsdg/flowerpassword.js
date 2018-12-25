@@ -4,10 +4,11 @@
   "description": "Flower Password implementation for JavaScript",
   "version": "1.0.4",
   "main": "dist/flowerpassword.js",
+  "umd:main": "dist/flowerpassword.umd.js",
+  "module": "dist/flowerpassword.m.js",
+  "source": "src/flowerpassword.js",
   "files": [
-    "dist/flowerpassword.js",
-    "dist/flowerpassword.min.js",
-    "dist/flowerpassword.min.js.map",
+    "dist",
     "src"
   ],
   "homepage": "https://github.com/xlsdg/flowerpassword.js",
@@ -28,20 +29,17 @@
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "blueimp-md5": "latest"
+  },
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "blueimp-md5": "^2.6.0",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.2.0",
-    "gulp-together": "^0.0.2",
-    "gulp-uglify": "^2.0.0"
+    "microbundle": "^0.9.0"
   },
   "scripts": {
-    "build": "npm install && gulp",
-    "start": "gulp watch"
+    "build": "microbundle --name fpCode --external blueimp-md5=md5",
+    "dev": "microbundle watch",
+    "release:major": "npm version major && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:patch": "npm version patch && npm publish"
   }
 }
