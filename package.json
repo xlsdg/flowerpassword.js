@@ -1,22 +1,21 @@
 {
-  "name": "flowerpassword.js",
-  "title": "flowerpassword.js",
+  "author": "xLsDg <xlsdg@qq.com> (https://xlsdg.org/)",
+  "bugs": {
+    "url": "https://github.com/xlsdg/flowerpassword.js/issues"
+  },
+  "dependencies": {
+    "blueimp-md5": "^2.16.0"
+  },
   "description": "Flower Password implementation for JavaScript",
-  "version": "2.0.0",
-  "main": "dist/flowerpassword.js",
-  "umd:main": "dist/flowerpassword.umd.js",
-  "module": "dist/flowerpassword.m.js",
-  "source": "src/flowerpassword.js",
+  "devDependencies": {
+    "microbundle": "^0.12.0"
+  },
+  "esmodule": "dist/flowerpassword.modern.js",
   "files": [
     "dist",
     "src"
   ],
   "homepage": "https://github.com/xlsdg/flowerpassword.js",
-  "author": "xLsDg <xlsdg@qq.com> (https://blog.xlsdg.org/)",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/xlsdg/flowerpassword.js.git"
-  },
   "keywords": [
     "huami",
     "flowerpassword",
@@ -25,15 +24,13 @@
     "library",
     "node"
   ],
-  "bugs": {
-    "url": "https://github.com/xlsdg/flowerpassword.js/issues"
-  },
   "license": "MIT",
-  "dependencies": {
-    "blueimp-md5": "latest"
-  },
-  "devDependencies": {
-    "microbundle": "^0.9.0"
+  "main": "dist/flowerpassword.js",
+  "module": "dist/flowerpassword.m.js",
+  "name": "flowerpassword.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xlsdg/flowerpassword.js.git"
   },
   "scripts": {
     "build": "microbundle --name fpCode --external all",
@@ -41,5 +38,10 @@
     "release:major": "npm version major && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:patch": "npm version patch && npm publish"
-  }
+  },
+  "source": "src/flowerpassword.ts",
+  "title": "flowerpassword.js",
+  "types": "dist/flowerpassword.d.ts",
+  "umd:main": "dist/flowerpassword.umd.js",
+  "version": "2.0.0"
 }
