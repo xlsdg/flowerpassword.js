@@ -4,13 +4,25 @@
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
   "dependencies": {
-    "blueimp-md5": "^2.16.0"
+    "blueimp-md5": "^2.19.0"
   },
   "description": "Flower Password implementation for JavaScript",
   "devDependencies": {
-    "microbundle": "^0.12.0"
+    "@types/blueimp-md5": "^2.18.2",
+    "@vitest/ui": "^3.2.4",
+    "microbundle": "^0.15.1",
+    "vite": "^7.1.10",
+    "vitest": "^3.2.4"
   },
   "esmodule": "dist/flowerpassword.modern.js",
+  "exports": {
+    ".": {
+      "types": "./dist/flowerpassword.d.ts",
+      "import": "./dist/flowerpassword.modern.js",
+      "require": "./dist/flowerpassword.js",
+      "default": "./dist/flowerpassword.modern.js"
+    }
+  },
   "files": [
     "dist",
     "src"
@@ -34,7 +46,13 @@
   },
   "scripts": {
     "build": "microbundle --name fpCode --external all",
-    "dev": "microbundle watch",
+    "dev": "vite",
+    "dev:lib": "microbundle watch",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
     "release:major": "npm version major && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:patch": "npm version patch && npm publish"
