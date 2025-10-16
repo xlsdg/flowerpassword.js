@@ -1,12 +1,39 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "module": "es2015",
+    // Language and Environment
+    "target": "ES2015",
+    "lib": ["ES2015"],
+
+    // Modules
+    "module": "ES2015",
     "moduleResolution": "node",
+
+    // Emit
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
-    "target": "es5"
+    "outDir": "./dist",
+    "removeComments": false,
+
+    // Interop Constraints
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Type Checking
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+
+    // Completeness
+    "skipLibCheck": true,
+
+    // Other
+    "baseUrl": ".",
+    "allowJs": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "**/*.spec.ts", "**/*.test.ts"]
 }
