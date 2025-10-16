@@ -43,25 +43,40 @@ jobs:
           CURRENT_TAG=${GITHUB_REF#refs/tags/}
           PREVIOUS_TAG=$(git tag --sort=-creatordate | grep -A 1 "^${CURRENT_TAG}$" | tail -1)
           if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" = "$CURRENT_TAG" ]; then
-            echo "previous_tag=" >> $GITHUB_OUTPUT
+            echo "tag=" >> $GITHUB_OUTPUT
+            echo "has_previous=false" >> $GITHUB_OUTPUT
           else
-            echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+            echo "tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+            echo "has_previous=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Generate release body
+        id: release_body
+        run: |
+          BODY="## Changes in v${{ steps.version.outputs.version }}
+
+          "
+          if [ "${{ steps.previous_tag.outputs.has_previous }}" = "true" ]; then
+            BODY="${BODY}See [CHANGELOG](https://github.com/${{ github.repository }}/compare/${{ steps.previous_tag.outputs.tag }}...${{ github.ref_name }}) for details."
+          else
+            BODY="${BODY}Initial release."
+          fi
+          BODY="${BODY}
+
+          ## Installation
+
+          \`\`\`bash
+          npm install flowerpassword.js@${{ steps.version.outputs.version }}
+          \`\`\`"
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: Release v${{ steps.version.outputs.version }}
-          body: |
-            ## Changes in v${{ steps.version.outputs.version }}
-
-            ${{ steps.previous_tag.outputs.previous_tag && format('See [CHANGELOG](https://github.com/{0}/compare/{1}...{2}) for details.', github.repository, steps.previous_tag.outputs.previous_tag, github.ref_name) || 'Initial release.' }}
-
-            ## Installation
-
-            ```bash
-            npm install flowerpassword.js@${{ steps.version.outputs.version }}
-            ```
+          body: ${{ steps.release_body.outputs.body }}
           draft: false
           prerelease: false
           files: |
