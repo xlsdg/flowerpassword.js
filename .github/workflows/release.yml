@@ -37,6 +37,17 @@ jobs:
         id: version
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          PREVIOUS_TAG=$(git tag --sort=-creatordate | grep -A 1 "^${CURRENT_TAG}$" | tail -1)
+          if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" = "$CURRENT_TAG" ]; then
+            echo "previous_tag=" >> $GITHUB_OUTPUT
+          else
+            echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -44,7 +55,7 @@ jobs:
           body: |
             ## Changes in v${{ steps.version.outputs.version }}
 
-            See [CHANGELOG](https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}) for details.
+            ${{ steps.previous_tag.outputs.previous_tag && format('See [CHANGELOG](https://github.com/{0}/compare/{1}...{2}) for details.', github.repository, steps.previous_tag.outputs.previous_tag, github.ref_name) || 'Initial release.' }}
 
             ## Installation
 
