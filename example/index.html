@@ -2,12 +2,543 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flower Password</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Password - Development Playground</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .version {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .length-control {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .length-control input[type="number"] {
+            flex: 1;
+        }
+
+        .length-control input[type="range"] {
+            flex: 2;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #667eea;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            margin-top: -6px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            background: #667eea;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            border: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            background: #f5f7fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: #667eea;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .copy-btn.copied {
+            background: #48bb78;
+        }
+
+        .examples {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .examples h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .example-item {
+            background: #f5f7fa;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .example-item:hover {
+            background: #e8ecf1;
+            transform: translateX(4px);
+        }
+
+        .example-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .example-value {
+            color: #333;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .hint {
+            color: #999;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <script src="../dist/flowerpassword.umd.js"></script>
-    <script>
-        document.write(fpCode("password", "key", 16));
+    <div class="container">
+        <h1>
+            🌸 Flower Password
+            <span class="version" id="version">v3.0.2</span>
+        </h1>
+        <p class="subtitle">Development Playground & Interactive Demo</p>
+
+        <form id="passwordForm">
+            <div class="form-group">
+                <label for="password">Master Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your master password"
+                    autocomplete="off"
+                    required
+                >
+                <p class="hint">Your secret password (never stored or transmitted)</p>
+            </div>
+
+            <div class="form-group">
+                <label for="key">Key / Domain</label>
+                <input
+                    type="text"
+                    id="key"
+                    placeholder="e.g., github.com, google.com"
+                    autocomplete="off"
+                    required
+                >
+                <p class="hint">Website or service identifier</p>
+            </div>
+
+            <div class="form-group">
+                <label for="length">Password Length: <span id="lengthValue">16</span></label>
+                <div class="length-control">
+                    <input
+                        type="range"
+                        id="length"
+                        min="2"
+                        max="32"
+                        value="16"
+                    >
+                    <input
+                        type="number"
+                        id="lengthNumber"
+                        min="2"
+                        max="32"
+                        value="16"
+                    >
+                </div>
+                <p class="hint">Length must be between 2 and 32 characters</p>
+            </div>
+
+            <button type="submit" class="btn">Generate Password</button>
+        </form>
+
+        <div class="result" id="result">
+            <div class="result-label">Generated Password</div>
+            <div class="result-value">
+                <span id="generatedPassword"></span>
+                <button class="copy-btn" id="copyBtn">Copy</button>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-label">Length</div>
+                    <div class="stat-value" id="statLength">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Uppercase</div>
+                    <div class="stat-value" id="statUpper">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Lowercase</div>
+                    <div class="stat-value" id="statLower">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>Quick Examples</h3>
+            <div class="example-item" data-password="test123" data-key="github.com" data-length="16">
+                <span class="example-label">GitHub</span>
+                <span class="example-value">test123 + github.com</span>
+            </div>
+            <div class="example-item" data-password="mypassword" data-key="google.com" data-length="20">
+                <span class="example-label">Google</span>
+                <span class="example-value">mypassword + google.com</span>
+            </div>
+            <div class="example-item" data-password="secure2024" data-key="example.com" data-length="12">
+                <span class="example-label">Example</span>
+                <span class="example-value">secure2024 + example.com</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Made with ❤️ using
+                <a href="https://github.com/xlsdg/flowerpassword.js" target="_blank">flowerpassword.js</a>
+            </p>
+            <p style="margin-top: 8px;">
+                Hot reload enabled - Edit source files and see changes instantly!
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        import fpCode from '../src/flowerpassword.ts';
+
+        // Update version from package.json
+        fetch('../package.json')
+            .then(r => r.json())
+            .then(pkg => {
+                document.getElementById('version').textContent = 'v' + pkg.version;
+            })
+            .catch(() => {});
+
+        // Form elements
+        const form = document.getElementById('passwordForm');
+        const passwordInput = document.getElementById('password');
+        const keyInput = document.getElementById('key');
+        const lengthSlider = document.getElementById('length');
+        const lengthNumber = document.getElementById('lengthNumber');
+        const lengthValue = document.getElementById('lengthValue');
+        const result = document.getElementById('result');
+        const generatedPassword = document.getElementById('generatedPassword');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // Stats elements
+        const statLength = document.getElementById('statLength');
+        const statUpper = document.getElementById('statUpper');
+        const statLower = document.getElementById('statLower');
+
+        // Sync length slider and number input
+        lengthSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            lengthNumber.value = value;
+            lengthValue.textContent = value;
+        });
+
+        lengthNumber.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value);
+            if (value < 2) value = 2;
+            if (value > 32) value = 32;
+            lengthSlider.value = value;
+            lengthValue.textContent = value;
+        });
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const password = passwordInput.value;
+            const key = keyInput.value;
+            const length = parseInt(lengthNumber.value);
+
+            if (!password || !key) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Generate password
+            const generated = fpCode(password, key, length);
+
+            // Display result
+            generatedPassword.textContent = generated;
+            result.classList.add('show');
+
+            // Update stats
+            updateStats(generated);
+
+            // Reset copy button
+            copyBtn.textContent = 'Copy';
+            copyBtn.classList.remove('copied');
+        });
+
+        // Copy to clipboard
+        copyBtn.addEventListener('click', async () => {
+            const text = generatedPassword.textContent;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy to clipboard');
+            }
+        });
+
+        // Update statistics
+        function updateStats(password) {
+            statLength.textContent = password.length;
+
+            const uppercase = (password.match(/[A-Z]/g) || []).length;
+            const lowercase = (password.match(/[a-z]/g) || []).length;
+
+            statUpper.textContent = uppercase;
+            statLower.textContent = lowercase;
+        }
+
+        // Example items click handlers
+        document.querySelectorAll('.example-item').forEach(item => {
+            item.addEventListener('click', () => {
+                passwordInput.value = item.dataset.password;
+                keyInput.value = item.dataset.key;
+                const length = item.dataset.length;
+                lengthSlider.value = length;
+                lengthNumber.value = length;
+                lengthValue.textContent = length;
+
+                // Auto submit
+                form.requestSubmit();
+            });
+        });
+
+        console.log('🌸 Flower Password Development Server');
+        console.log('Hot reload is enabled - edit source files to see changes!');
     </script>
 </body>
 </html>
