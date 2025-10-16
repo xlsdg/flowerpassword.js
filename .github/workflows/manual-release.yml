@@ -46,11 +46,11 @@ jobs:
         run: npm test
 
       - name: Bump version
-        run: npm version ${{ inputs.version }} -m 'chore: release v%s'
+        run: npm version ${{ inputs.version }} -m "chore: release v%s"
 
       - name: Get new version
         id: version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_OUTPUT
 
       - name: Build package
         run: npm run build
@@ -72,9 +72,9 @@ jobs:
 
             ## Installation
 
-            \`\`\`bash
+            ```bash
             npm install flowerpassword.js@${{ steps.version.outputs.version }}
-            \`\`\`
+            ```
           draft: false
           prerelease: false
           files: |

@@ -48,9 +48,9 @@ jobs:
 
             ## Installation
 
-            \`\`\`bash
+            ```bash
             npm install flowerpassword.js@${{ steps.version.outputs.version }}
-            \`\`\`
+            ```
           draft: false
           prerelease: false
           files: |
