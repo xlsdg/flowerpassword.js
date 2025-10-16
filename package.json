@@ -62,5 +62,5 @@
   "type": "module",
   "types": "dist/flowerpassword.d.ts",
   "umd:main": "dist/flowerpassword.umd.js",
-  "version": "3.0.3"
+  "version": "3.0.4"
 }
