@@ -10,6 +10,7 @@ export default defineConfig({
 
   // Vitest configuration
   test: {
+    root: ".",  // Set test root to project root
     globals: true,
     environment: "node",
     coverage: {
