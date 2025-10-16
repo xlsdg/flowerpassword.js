@@ -59,6 +59,7 @@
   },
   "source": "src/flowerpassword.ts",
   "title": "flowerpassword.js",
+  "type": "module",
   "types": "dist/flowerpassword.d.ts",
   "umd:main": "dist/flowerpassword.umd.js",
   "version": "3.0.2"
