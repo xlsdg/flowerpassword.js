@@ -17,10 +17,10 @@
   "esmodule": "dist/flowerPassword.modern.js",
   "exports": {
     ".": {
-      "default": "./dist/flowerPassword.modern.js",
+      "types": "./dist/flowerPassword.d.ts",
       "import": "./dist/flowerPassword.modern.js",
       "require": "./dist/flowerPassword.js",
-      "types": "./dist/flowerPassword.d.ts"
+      "default": "./dist/flowerPassword.modern.js"
     }
   },
   "files": [
