@@ -1,11 +1,14 @@
 import MD5 from "blueimp-md5";
 
 /**
- * Valid password length range: 2-32 characters
+ * Minimum valid password length
  */
-type Length =
-  | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16
-  | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32;
+const MIN_LENGTH = 2;
+
+/**
+ * Maximum valid password length
+ */
+const MAX_LENGTH = 32;
 
 /**
  * Magic string used for character transformation rules
@@ -25,6 +28,7 @@ const MD5_HEX_LENGTH = 32;
  * @param key - Domain or service identifier
  * @param length - Output password length (2-32 characters, default: 16)
  * @returns Generated password string
+ * @throws {Error} If length is not a valid number or is outside the range 2-32
  *
  * @example
  * ```typescript
@@ -35,8 +39,17 @@ const MD5_HEX_LENGTH = 32;
 export default function fpCode(
   password: string,
   key: string,
-  length: Length = 16
+  length: number = 16
 ): string {
+  // Validate length parameter
+  if (!Number.isInteger(length)) {
+    throw new Error(`Length must be an integer, got: ${length}`);
+  }
+
+  if (length < MIN_LENGTH || length > MAX_LENGTH) {
+    throw new Error(`Length must be between ${MIN_LENGTH} and ${MAX_LENGTH}, got: ${length}`);
+  }
+
   // Generate base MD5 hash from password and key
   const baseHash = MD5(password, key);
 

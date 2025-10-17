@@ -173,4 +173,31 @@ describe("fpCode", () => {
       });
     });
   });
+
+  describe("Length validation errors", () => {
+    it("should throw error for length less than 2", () => {
+      expect(() => fpCode("password", "key", 1)).toThrow("Length must be between 2 and 32, got: 1");
+      expect(() => fpCode("password", "key", 0)).toThrow("Length must be between 2 and 32, got: 0");
+      expect(() => fpCode("password", "key", -1)).toThrow("Length must be between 2 and 32, got: -1");
+    });
+
+    it("should throw error for length greater than 32", () => {
+      expect(() => fpCode("password", "key", 33)).toThrow("Length must be between 2 and 32, got: 33");
+      expect(() => fpCode("password", "key", 100)).toThrow("Length must be between 2 and 32, got: 100");
+    });
+
+    it("should throw error for non-integer length", () => {
+      expect(() => fpCode("password", "key", 16.5)).toThrow("Length must be an integer, got: 16.5");
+      expect(() => fpCode("password", "key", 3.14)).toThrow("Length must be an integer, got: 3.14");
+    });
+
+    it("should throw error for NaN", () => {
+      expect(() => fpCode("password", "key", NaN)).toThrow("Length must be an integer");
+    });
+
+    it("should throw error for Infinity", () => {
+      expect(() => fpCode("password", "key", Infinity)).toThrow("Length must be an integer, got: Infinity");
+      expect(() => fpCode("password", "key", -Infinity)).toThrow("Length must be an integer, got: -Infinity");
+    });
+  });
 });
