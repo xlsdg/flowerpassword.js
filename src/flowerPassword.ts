@@ -1,4 +1,4 @@
-import { md5Async, md5Sync } from "./md5";
+import md5 from "blueimp-md5";
 
 /**
  * Minimum valid password length
@@ -68,57 +68,22 @@ function generatePassword(
 }
 
 /**
- * Generates a Flower Password based on master password and key (Async version)
- * Works in both Node.js and browser environments
- *
- * @param password - Master password
- * @param key - Domain or service identifier
- * @param length - Output password length (2-32 characters, default: 16)
- * @returns Promise that resolves to generated password string
- * @throws {Error} If length is not a valid number or is outside the range 2-32
- *
- * @example
- * ```typescript
- * import { fpCode } from 'flowerpassword.js';
- * const password = await fpCode("mypassword", "github.com", 16);
- * console.log(password); // "D04175F7A9c7Ab4a"
- * ```
- */
-export async function fpCode(
-  password: string,
-  key: string,
-  length: number = 16
-): Promise<string> {
-  validateLength(length);
-
-  // Generate base MD5 hash from password and key
-  const baseHash = await md5Async(password, key);
-
-  // Generate rule and source hashes using fixed salts
-  const ruleHash = await md5Async(baseHash, "kise");
-  const sourceHash = await md5Async(baseHash, "snow");
-
-  return generatePassword(ruleHash, sourceHash, length);
-}
-
-/**
- * Generates a Flower Password based on master password and key (Sync version)
- * Only works in Node.js environment
+ * Generates a Flower Password based on master password and key
  *
  * @param password - Master password
  * @param key - Domain or service identifier
  * @param length - Output password length (2-32 characters, default: 16)
  * @returns Generated password string
  * @throws {Error} If length is not a valid number or is outside the range 2-32
- * @throws {Error} If called in browser environment
  *
  * @example
  * ```typescript
- * const password = fpCodeSync("mypassword", "github.com", 16);
+ * import { fpCode } from 'flowerpassword.js';
+ * const password = fpCode("mypassword", "github.com", 16);
  * console.log(password); // "D04175F7A9c7Ab4a"
  * ```
  */
-export function fpCodeSync(
+export function fpCode(
   password: string,
   key: string,
   length: number = 16
@@ -126,11 +91,11 @@ export function fpCodeSync(
   validateLength(length);
 
   // Generate base MD5 hash from password and key
-  const baseHash = md5Sync(password, key);
+  const baseHash = md5(password, key);
 
   // Generate rule and source hashes using fixed salts
-  const ruleHash = md5Sync(baseHash, "kise");
-  const sourceHash = md5Sync(baseHash, "snow");
+  const ruleHash = md5(baseHash, "kise");
+  const sourceHash = md5(baseHash, "snow");
 
   return generatePassword(ruleHash, sourceHash, length);
 }

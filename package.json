@@ -3,8 +3,12 @@
   "bugs": {
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
+  "dependencies": {
+    "blueimp-md5": "^2.19.0"
+  },
   "description": "Flower Password implementation for JavaScript",
   "devDependencies": {
+    "@types/blueimp-md5": "^2.18.2",
     "@vitest/ui": "^3.2.4",
     "microbundle": "^0.15.1",
     "vite": "^7.1.10",
@@ -13,10 +17,10 @@
   "esmodule": "dist/flowerPassword.modern.js",
   "exports": {
     ".": {
-      "types": "./dist/flowerPassword.d.ts",
+      "default": "./dist/flowerPassword.modern.js",
       "import": "./dist/flowerPassword.modern.js",
       "require": "./dist/flowerPassword.js",
-      "default": "./dist/flowerPassword.modern.js"
+      "types": "./dist/flowerPassword.d.ts"
     }
   },
   "files": [
@@ -41,22 +45,22 @@
     "url": "https://github.com/xlsdg/flowerpassword.js.git"
   },
   "scripts": {
-    "build": "microbundle --name fpCode --external crypto",
+    "build": "microbundle --name fpCode --external all",
     "dev": "vite",
     "dev:lib": "microbundle watch",
     "prepublishOnly": "npm run build",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage",
     "prerelease": "npm run test && npm run build",
     "release:major": "npm run prerelease && npm version major && git push origin master --follow-tags",
     "release:minor": "npm run prerelease && npm version minor && git push origin master --follow-tags",
-    "release:patch": "npm run prerelease && npm version patch && git push origin master --follow-tags"
+    "release:patch": "npm run prerelease && npm version patch && git push origin master --follow-tags",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "source": "src/flowerPassword.ts",
   "title": "flowerpassword.js",
   "types": "dist/flowerPassword.d.ts",
   "umd:main": "dist/flowerPassword.umd.js",
-  "version": "4.0.2"
+  "version": "5.0.0"
 }

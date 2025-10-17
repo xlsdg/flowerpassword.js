@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a JavaScript/TypeScript library that implements the Flower Password algorithm. It's a lightweight package that generates secure passwords based on a master password and a key using MD5/HMAC-MD5 hashing with a specific transformation algorithm.
 
-**Version 4.0.0** introduced significant breaking changes - see [Version History](#version-history) for migration details.
+**Version 5.0.0** is the current version - see [Version History](#version-history) for migration details.
 
 ## Build System
 
@@ -86,8 +86,8 @@ The entire algorithm is contained in a single file: [src/flowerPassword.ts](src/
 
 1. Takes three parameters: `password` (master password), `key` (site/service identifier), and `length` (2-32 characters, default 16)
 2. Validates that `length` is an integer between 2 and 32 (throws `Error` if invalid)
-3. Generates an MD5 hash from password and key
-4. Creates two additional MD5 hashes using the first hash with fixed salt strings ("kise" for rules, "snow" for source)
+3. Generates an HMAC-MD5 hash from password and key using `blueimp-md5`
+4. Creates two additional HMAC-MD5 hashes using the first hash with fixed salt strings ("kise" for rules, "snow" for source)
 5. Applies character transformation rules based on a magic string ("sunlovesnow1990090127xykab")
 6. Ensures the first character is always alphabetic (replaces with 'K' if numeric)
 7. Returns the transformed password at the requested length
@@ -104,20 +104,23 @@ The function accepts a `number` type for the `length` parameter and performs run
 
 ### Dependencies
 
-- **Runtime**: None - Uses native crypto APIs (Node.js `crypto` module and Web Crypto API)
+- **Runtime**:
+  - `blueimp-md5` - Mature, well-tested MD5/HMAC-MD5 implementation
 - **Dev**:
+  - `@types/blueimp-md5` - TypeScript type definitions for blueimp-md5
   - `microbundle` - Zero-configuration bundler for tiny modules
   - `vitest` - Fast unit test framework powered by Vite
   - `@vitest/ui` - UI for Vitest testing framework
 
 ### MD5 Implementation
 
-The library uses platform-native crypto APIs instead of external dependencies:
+The library uses `blueimp-md5` for reliable MD5/HMAC-MD5 hashing:
 
-- **Node.js**: Uses built-in `crypto` module for MD5/HMAC-MD5
-- **Browser**: Uses Web Crypto API for MD5/HMAC-MD5
-- **Compatibility**: Fully compatible with `blueimp-md5` HMAC behavior
-- **Implementation**: [src/md5.ts](src/md5.ts) provides both async and sync variants
+- **All environments**: Uses `blueimp-md5` package (browser and Node.js)
+- **Synchronous**: No async/await needed
+- **Proven**: Mature library with 1.2k+ GitHub stars
+- **Small**: ~2KB minified
+- **Compatible**: Same algorithm output as previous versions
 
 ## Testing
 
@@ -173,94 +176,87 @@ npm run test:coverage
 
 ## Version History
 
-### Version 4.0.0 - Breaking Changes
+### Version 5.0.0 - Simplified API (Current)
 
-**Released**: 2025-01-XX
+**Released**: 2025-10-17
 
-This major version removes the external `blueimp-md5` dependency and uses native crypto APIs instead.
+This major version simplifies the API by removing async/await and restoring the `blueimp-md5` dependency.
 
 #### Breaking Changes
 
-1. **Named exports instead of default export**
-   - Changed from `export default` to named exports
-   - Old: `import fpCode from 'flowerpassword.js'`
-   - New: `import { fpCode } from 'flowerpassword.js'`
+1. **Single synchronous API**
+   - Removed `fpCodeAsync` (async version)
+   - Removed `fpCodeSync` (sync version)
+   - Single `fpCode()` function works in all environments (synchronous)
+   - Old (v4.x): `const pwd = await fpCode("password", "key", 16);`
+   - New (v5.0): `const pwd = fpCode("password", "key", 16);`
 
-2. **Async API by default**
-   - The `fpCode()` function is now **async** and returns a `Promise<string>`
-   - Old (v3.x): `const pwd = fpCode("password", "key", 16);`
-   - New (v4.x): `const pwd = await fpCode("password", "key", 16);`
-
-3. **New sync function for Node.js**
-   - Added `fpCodeSync()` for synchronous usage in Node.js
-   - Browser users must use the async version
-   - Example: `import { fpCodeSync } from 'flowerpassword.js';`
-
-4. **Zero runtime dependencies**
-   - Removed `blueimp-md5` dependency
-   - Package size reduced by ~2KB
-   - Uses native `crypto` module in Node.js
-   - Uses Web Crypto API in browsers
+2. **Restored blueimp-md5 dependency**
+   - Uses proven `blueimp-md5` library instead of custom MD5 implementation
+   - More reliable and battle-tested
+   - Slightly larger bundle (~2KB) but better maintained
 
 #### Migration Guide
 
-**For Browser Users:**
+**From v4.x to v5.0:**
 
 ```javascript
-// v3.x (old)
-import fpCode from 'flowerpassword.js';
-const password = fpCode("mypassword", "github.com", 16);
-
-// v4.x (new) - use named import and await
+// v4.x (old) - async
 import { fpCode } from 'flowerpassword.js';
 const password = await fpCode("mypassword", "github.com", 16);
 
-// Or use in an event handler
-button.addEventListener('click', async () => {
-  const password = await fpCode("mypassword", "github.com", 16);
-  console.log(password);
-});
-```
-
-**For Node.js Users (prefer sync):**
-
-```javascript
-// v3.x (old)
-const fpCode = require('flowerpassword.js');
-const password = fpCode("mypassword", "github.com", 16);
-
-// v4.x (new) - use fpCodeSync
-const { fpCodeSync } = require('flowerpassword.js');
+// v4.x (old) - sync (Node.js only)
+import { fpCodeSync } from 'flowerpassword.js';
 const password = fpCodeSync("mypassword", "github.com", 16);
+
+// v5.0 (new) - single synchronous API
+import { fpCode } from 'flowerpassword.js';
+const password = fpCode("mypassword", "github.com", 16);
 ```
 
-**For Node.js Users (async):**
+**From v3.x to v5.0:**
 
 ```javascript
-// v3.x (old)
-const fpCode = require('flowerpassword.js');
+// v3.x (old) - default export
+import fpCode from 'flowerpassword.js';
 const password = fpCode("mypassword", "github.com", 16);
 
-// v4.x (new) - use named import and async/await
-const { fpCode } = require('flowerpassword.js');
-const password = await fpCode("mypassword", "github.com", 16);
+// v5.0 (new) - named export
+import { fpCode } from 'flowerpassword.js';
+const password = fpCode("mypassword", "github.com", 16);
 ```
 
 #### Benefits
 
-- ✅ Zero external dependencies
-- ✅ Smaller package size (~2KB reduction)
-- ✅ Better security (uses platform-native crypto)
-- ✅ Same algorithm output (100% compatible with v3.x)
-- ✅ Both async and sync APIs available
-- ✅ Works in Node.js, browsers, and Electron
+- ✅ Simpler API - no async/await needed
+- ✅ More reliable - uses battle-tested `blueimp-md5`
+- ✅ Less code to maintain - no custom MD5 implementation
+- ✅ Same algorithm output (100% compatible with v3.x and v4.x)
+- ✅ Works in all environments (Node.js, browsers, Electron)
+- ✅ Synchronous execution - no performance overhead from async
 
 #### Compatibility
 
-- **Node.js**: 20.x, 22.x (tested in CI)
-- **Browsers**: Modern browsers with Web Crypto API support
-  - Chrome 37+
-  - Firefox 34+
-  - Safari 11+
-  - Edge 12+
+- **Node.js**: 6+ (tested in CI with 20.x, 22.x)
+- **Browsers**: All modern browsers (ES2015+)
+  - Chrome 51+
+  - Firefox 54+
+  - Safari 10+
+  - Edge 15+
 - **Electron**: Fully supported (both renderer and main process)
+
+### Version 4.0.0 - Native Crypto APIs
+
+**Released**: 2025-10-17 (deprecated in favor of v5.0.0)
+
+This version removed the `blueimp-md5` dependency and used native crypto APIs, but introduced complexity with async/await.
+
+**Note**: This version is now deprecated. Use v5.0.0 instead.
+
+### Version 3.x - Classic Version
+
+**Last Release**: 3.0.2
+
+Used default export and `blueimp-md5` dependency. Simple synchronous API.
+
+**Note**: Upgrade to v5.0.0 for named exports and latest improvements.
