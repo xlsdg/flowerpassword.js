@@ -3,24 +3,20 @@
   "bugs": {
     "url": "https://github.com/xlsdg/flowerpassword.js/issues"
   },
-  "dependencies": {
-    "blueimp-md5": "^2.19.0"
-  },
   "description": "Flower Password implementation for JavaScript",
   "devDependencies": {
-    "@types/blueimp-md5": "^2.18.2",
     "@vitest/ui": "^3.2.4",
     "microbundle": "^0.15.1",
     "vite": "^7.1.10",
     "vitest": "^3.2.4"
   },
-  "esmodule": "dist/flowerpassword.modern.js",
+  "esmodule": "dist/flowerPassword.modern.js",
   "exports": {
     ".": {
-      "types": "./dist/flowerpassword.d.ts",
-      "import": "./dist/flowerpassword.modern.js",
-      "require": "./dist/flowerpassword.js",
-      "default": "./dist/flowerpassword.modern.js"
+      "types": "./dist/flowerPassword.d.ts",
+      "import": "./dist/flowerPassword.modern.js",
+      "require": "./dist/flowerPassword.js",
+      "default": "./dist/flowerPassword.modern.js"
     }
   },
   "files": [
@@ -37,8 +33,8 @@
     "node"
   ],
   "license": "MIT",
-  "main": "dist/flowerpassword.js",
-  "module": "dist/flowerpassword.m.js",
+  "main": "dist/flowerPassword.js",
+  "module": "dist/flowerPassword.m.js",
   "name": "flowerpassword.js",
   "repository": {
     "type": "git",
@@ -58,9 +54,9 @@
     "release:minor": "npm run prerelease && npm version minor && git push origin master --follow-tags",
     "release:patch": "npm run prerelease && npm version patch && git push origin master --follow-tags"
   },
-  "source": "src/flowerpassword.ts",
+  "source": "src/flowerPassword.ts",
   "title": "flowerpassword.js",
-  "types": "dist/flowerpassword.d.ts",
-  "umd:main": "dist/flowerpassword.umd.js",
-  "version": "3.0.12"
+  "types": "dist/flowerPassword.d.ts",
+  "umd:main": "dist/flowerPassword.umd.js",
+  "version": "4.0.0"
 }
