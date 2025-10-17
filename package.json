@@ -41,7 +41,7 @@
     "url": "https://github.com/xlsdg/flowerpassword.js.git"
   },
   "scripts": {
-    "build": "microbundle --name fpCode --external all",
+    "build": "microbundle --name fpCode --external crypto",
     "dev": "vite",
     "dev:lib": "microbundle watch",
     "prepublishOnly": "npm run build",

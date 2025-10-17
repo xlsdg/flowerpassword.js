@@ -12,9 +12,10 @@
 - **Secure**: Uses MD5 hashing with a proprietary transformation algorithm
 - **TypeScript Support**: Full type definitions included
 - **Multiple Formats**: CommonJS, ES Module, and UMD builds
-- **Lightweight**: Zero runtime dependencies except MD5
+- **Zero Dependencies**: No runtime dependencies - uses native crypto APIs
 - **Flexible Length**: Supports password lengths from 2 to 32 characters
 - **Browser & Node.js**: Works in all modern JavaScript environments
+- **Async & Sync APIs**: Choose between async (browser/Node.js) or sync (Node.js only)
 
 ## Installation
 
@@ -39,27 +40,34 @@ pnpm add flowerpassword.js
 ### ES Module (Recommended)
 
 ```typescript
-import fpCode from 'flowerpassword.js';
+import { fpCode } from 'flowerpassword.js';
 
-// Generate a 16-character password
-const password = fpCode('myMasterPassword', 'github.com', 16);
+// Generate a 16-character password (async)
+const password = await fpCode('myMasterPassword', 'github.com', 16);
 console.log(password); // Example: "D04175F7A9c7Ab4a"
 
 // Default length is 16 if not specified
-const defaultPassword = fpCode('myMasterPassword', 'twitter.com');
+const defaultPassword = await fpCode('myMasterPassword', 'twitter.com');
 console.log(defaultPassword); // 16 characters
 
 // Custom length (2-32 characters)
-const shortPassword = fpCode('myMasterPassword', 'bank.com', 12);
+const shortPassword = await fpCode('myMasterPassword', 'bank.com', 12);
 console.log(shortPassword); // 12 characters
 ```
 
 ### CommonJS
 
 ```javascript
-const fpCode = require('flowerpassword.js');
+// For synchronous usage in Node.js (recommended)
+const { fpCodeSync } = require('flowerpassword.js');
 
-const password = fpCode('myMasterPassword', 'google.com', 16);
+const password = fpCodeSync('myMasterPassword', 'google.com', 16);
+console.log(password);
+
+// Or use async version
+const { fpCode } = require('flowerpassword.js');
+
+const password = await fpCode('myMasterPassword', 'google.com', 16);
 console.log(password);
 ```
 
@@ -68,12 +76,14 @@ console.log(password);
 The package works seamlessly in Electron applications (both main and renderer processes):
 
 ```javascript
-// Main process or Renderer process
-const fpCode = require('flowerpassword.js');
-// or
-import fpCode from 'flowerpassword.js';
+// Main process (synchronous - recommended)
+const { fpCodeSync } = require('flowerpassword.js');
+const password = fpCodeSync('myMasterPassword', 'github.com', 16);
+console.log(password);
 
-const password = fpCode('myMasterPassword', 'github.com', 16);
+// Renderer process (async)
+import { fpCode } from 'flowerpassword.js';
+const password = await fpCode('myMasterPassword', 'github.com', 16);
 console.log(password);
 ```
 
@@ -82,14 +92,17 @@ console.log(password);
 ```html
 <script src="node_modules/flowerpassword.js/dist/flowerpassword.umd.js"></script>
 <script>
-  const password = fpCode('myMasterPassword', 'example.com', 16);
-  console.log(password);
+  // The fpCode object is globally available with both fpCode and fpCodeSync
+  (async () => {
+    const password = await fpCode.fpCode('myMasterPassword', 'example.com', 16);
+    console.log(password);
+  })();
 </script>
 ```
 
 ## API
 
-### `fpCode(password, key, length?)`
+### `fpCode(password, key, length?)` (Async)
 
 Generates a unique password based on your master password and a key (typically a domain name).
 
@@ -98,6 +111,32 @@ Generates a unique password based on your master password and a key (typically a
 - **password** `string` (required) - Your master password
 - **key** `string` (required) - A unique identifier, typically the website domain (e.g., "github.com")
 - **length** `number` (optional) - Desired password length, must be an integer between 2 and 32. Default: `16`
+
+#### Returns
+
+- `Promise<string>` - The generated password
+
+#### Throws
+
+- `Error` - If length is not an integer or is outside the range 2-32
+
+#### Type Signature
+
+```typescript
+function fpCode(
+  password: string,
+  key: string,
+  length?: number
+): Promise<string>
+```
+
+### `fpCodeSync(password, key, length?)` (Node.js only)
+
+Synchronous version of `fpCode` for Node.js environments.
+
+#### Parameters
+
+Same as `fpCode`
 
 #### Returns
 
@@ -110,7 +149,7 @@ Generates a unique password based on your master password and a key (typically a
 #### Type Signature
 
 ```typescript
-function fpCode(
+function fpCodeSync(
   password: string,
   key: string,
   length?: number
@@ -137,23 +176,23 @@ This ensures:
 ## Examples
 
 ```typescript
-import fpCode from 'flowerpassword.js';
+import { fpCode } from 'flowerpassword.js';
 
 // Different websites get different passwords
-fpCode('master123', 'github.com', 16);   // "D04175F7A9c7Ab4a"
-fpCode('master123', 'twitter.com', 16);  // "K8d3B5e9C2a1F7b6"
-fpCode('master123', 'google.com', 16);   // "A1b2C3d4E5f6G7h8"
+await fpCode('master123', 'github.com', 16);   // "D04175F7A9c7Ab4a"
+await fpCode('master123', 'twitter.com', 16);  // "K8d3B5e9C2a1F7b6"
+await fpCode('master123', 'google.com', 16);   // "A1b2C3d4E5f6G7h8"
 
 // Same master password + key = same result (deterministic)
-fpCode('master123', 'github.com', 16);   // Always "D04175F7A9c7Ab4a"
+await fpCode('master123', 'github.com', 16);   // Always "D04175F7A9c7Ab4a"
 
 // Different lengths
-fpCode('master123', 'github.com', 8);    // "D04175F7"
-fpCode('master123', 'github.com', 12);   // "D04175F7A9c7"
-fpCode('master123', 'github.com', 32);   // Full 32-character password
+await fpCode('master123', 'github.com', 8);    // "D04175F7"
+await fpCode('master123', 'github.com', 12);   // "D04175F7A9c7"
+await fpCode('master123', 'github.com', 32);   // Full 32-character password
 
 // First character is always alphabetic
-fpCode('anypassword', 'anysite', 16);    // Never starts with a number
+await fpCode('anypassword', 'anysite', 16);    // Never starts with a number
 ```
 
 ## Development
@@ -195,23 +234,26 @@ npm run dev:lib
 This package includes TypeScript definitions out of the box. The function performs runtime validation to ensure you only use valid length values (2-32):
 
 ```typescript
-import fpCode from 'flowerpassword.js';
+import { fpCode, fpCodeSync } from 'flowerpassword.js';
 
-// ✅ Valid - integers between 2 and 32
-const password1 = fpCode('master', 'site.com', 16);
-const password2 = fpCode('master', 'site.com', 32);
-const password3 = fpCode('master', 'site.com', 2);
+// ✅ Valid - integers between 2 and 32 (async)
+const password1 = await fpCode('master', 'site.com', 16);
+const password2 = await fpCode('master', 'site.com', 32);
+const password3 = await fpCode('master', 'site.com', 2);
+
+// ✅ Valid - synchronous version (Node.js only)
+const password4 = fpCodeSync('master', 'site.com', 16);
 
 // ❌ Throws Error: Length must be between 2 and 32
 try {
-  const password4 = fpCode('master', 'site.com', 50);
+  const password5 = await fpCode('master', 'site.com', 50);
 } catch (error) {
   console.error(error.message); // "Length must be between 2 and 32, got: 50"
 }
 
 // ❌ Throws Error: Length must be an integer
 try {
-  const password5 = fpCode('master', 'site.com', 16.5);
+  const password6 = await fpCode('master', 'site.com', 16.5);
 } catch (error) {
   console.error(error.message); // "Length must be an integer, got: 16.5"
 }
