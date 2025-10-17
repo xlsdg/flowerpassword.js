@@ -71,6 +71,7 @@ git push origin master --follow-tags  # Triggers automated release
   - `dist/*.map` - Source maps for all outputs
 - The build is configured with `--name fpCode --external all` flags
 - Package uses modern `exports` field for conditional exports (ESM/CommonJS)
+- **Module system**: Does NOT use `"type": "module"` to ensure proper CommonJS compatibility in environments like Electron
 - `prepublishOnly` hook automatically builds before npm publish
 
 ## Architecture
@@ -82,15 +83,22 @@ The entire algorithm is contained in a single file: [src/flowerpassword.ts](src/
 **Algorithm overview:**
 
 1. Takes three parameters: `password` (master password), `key` (site/service identifier), and `length` (2-32 characters, default 16)
-2. Generates an MD5 hash from password and key
-3. Creates two additional MD5 hashes using the first hash with fixed salt strings ("kise" for rules, "snow" for source)
-4. Applies character transformation rules based on a magic string ("sunlovesnow1990090127xykab")
-5. Ensures the first character is always alphabetic (replaces with 'K' if numeric)
-6. Returns the transformed password at the requested length
+2. Validates that `length` is an integer between 2 and 32 (throws `Error` if invalid)
+3. Generates an MD5 hash from password and key
+4. Creates two additional MD5 hashes using the first hash with fixed salt strings ("kise" for rules, "snow" for source)
+5. Applies character transformation rules based on a magic string ("sunlovesnow1990090127xykab")
+6. Ensures the first character is always alphabetic (replaces with 'K' if numeric)
+7. Returns the transformed password at the requested length
 
 ### Type System
 
-The `Length` type is a union of literal numbers from 2 to 32, enforcing valid password lengths at compile time.
+The function accepts a `number` type for the `length` parameter and performs runtime validation:
+
+- **Integer check**: Uses `Number.isInteger()` to ensure the value is a whole number
+- **Range check**: Validates that the length is between `MIN_LENGTH` (2) and `MAX_LENGTH` (32)
+- **Error handling**: Throws descriptive `Error` messages for invalid inputs:
+  - `"Length must be an integer, got: {value}"` for non-integer values (including `NaN`, `Infinity`)
+  - `"Length must be between 2 and 32, got: {value}"` for out-of-range integers
 
 ### Dependencies
 
@@ -122,6 +130,9 @@ The test suite includes:
 - **Real-world examples** - Test vectors for algorithm consistency verification
 - **Edge cases** - Empty strings, special characters, unicode, very long inputs
 - **Type safety tests** - Validates all valid length types work correctly
+- **Length validation errors** - Tests runtime error throwing for:
+  - Out-of-range values (< 2 or > 32)
+  - Non-integer values (floats, NaN, Infinity)
 
 ### Running Tests
 
