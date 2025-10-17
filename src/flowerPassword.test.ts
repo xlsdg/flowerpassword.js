@@ -89,12 +89,12 @@ describe("fpCode (async)", () => {
 
     it("should handle empty key string", async () => {
       const result = await fpCode("password", "", 16);
-      expect(result).toBe("Dad8CE3D7430882D");
+      expect(result).toBe("eB3b1cA3D6B54c00");
     });
 
     it("should handle both empty strings", async () => {
       const result = await fpCode("", "", 16);
-      expect(result).toBe("K5268B786af549FD");
+      expect(result).toBe("K930B0264e62DDFC");
     });
 
     it("should handle special characters in password", async () => {

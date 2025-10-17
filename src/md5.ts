@@ -39,13 +39,16 @@ function isNode(): boolean {
 export async function md5Async(message: string, key?: string): Promise<string> {
   const encoder = new TextEncoder();
 
+  // Mimic blueimp-md5 behavior: treat empty string key as undefined
+  const effectiveKey = key === '' ? undefined : key;
+
   if (isNode()) {
     // Node.js environment - use crypto module
     const crypto = await import("crypto");
 
-    if (key !== undefined) {
+    if (effectiveKey !== undefined) {
       // HMAC-MD5
-      const hmac = crypto.createHmac("md5", key);
+      const hmac = crypto.createHmac("md5", effectiveKey);
       hmac.update(message);
       return hmac.digest("hex");
     } else {
@@ -56,9 +59,9 @@ export async function md5Async(message: string, key?: string): Promise<string> {
     }
   } else {
     // Browser environment - use Web Crypto API
-    if (key !== undefined) {
+    if (effectiveKey !== undefined) {
       // HMAC-MD5
-      const keyData = encoder.encode(key);
+      const keyData = encoder.encode(effectiveKey);
       const messageData = encoder.encode(message);
 
       const cryptoKey = await crypto.subtle.importKey(
@@ -100,13 +103,16 @@ export function md5Sync(message: string, key?: string): string {
     );
   }
 
+  // Mimic blueimp-md5 behavior: treat empty string key as undefined
+  const effectiveKey = key === '' ? undefined : key;
+
   // Use require for synchronous Node.js crypto
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const crypto = require("crypto");
 
-  if (key !== undefined) {
+  if (effectiveKey !== undefined) {
     // HMAC-MD5
-    const hmac = crypto.createHmac("md5", key);
+    const hmac = crypto.createHmac("md5", effectiveKey);
     hmac.update(message);
     return hmac.digest("hex");
   } else {
