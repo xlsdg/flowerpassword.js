@@ -75,7 +75,7 @@ git push origin master --follow-tags
 
 Every push or PR automatically:
 
-- ✅ Runs tests on Node.js 18, 20, 22
+- ✅ Runs tests on Node.js 20, 22
 - ✅ Builds the package
 - ✅ Reports status
 

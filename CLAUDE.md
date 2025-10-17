@@ -43,7 +43,7 @@ The project uses GitHub Actions for automated CI/CD. See [.github/CICD_SETUP.md]
 
 **Workflows:**
 
-- **CI** - Runs tests and builds on every push/PR (Node.js 18.x, 20.x, 22.x)
+- **CI** - Runs tests and builds on every push/PR (Node.js 20.x, 22.x)
 - **Release** - Automatically creates GitHub Release and publishes to npm when version tags are pushed
 - **Manual Release** - Allows manual release from GitHub UI with automatic version bumping
 

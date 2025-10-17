@@ -15,7 +15,7 @@ This project uses GitHub Actions for automated testing, building, and publishing
 
 **Actions:**
 
-- Tests on Node.js 18.x, 20.x, and 22.x
+- Tests on Node.js 20.x and 22.x
 - Runs unit tests
 - Builds the package
 - Uploads build artifacts
