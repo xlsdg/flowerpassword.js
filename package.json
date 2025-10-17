@@ -53,13 +53,13 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "release:major": "npm version major && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:patch": "npm version patch && npm publish"
+    "prerelease": "npm run test && npm run build",
+    "release:major": "npm run prerelease && npm version major && git push origin master --follow-tags",
+    "release:minor": "npm run prerelease && npm version minor && git push origin master --follow-tags",
+    "release:patch": "npm run prerelease && npm version patch && git push origin master --follow-tags"
   },
   "source": "src/flowerpassword.ts",
   "title": "flowerpassword.js",
-  "type": "module",
   "types": "dist/flowerpassword.d.ts",
   "umd:main": "dist/flowerpassword.umd.js",
   "version": "3.0.10"
