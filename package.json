@@ -58,5 +58,5 @@
   "title": "flowerpassword.js",
   "types": "dist/flowerPassword.d.ts",
   "umd:main": "dist/flowerPassword.umd.js",
-  "version": "4.0.0"
+  "version": "4.0.1"
 }
