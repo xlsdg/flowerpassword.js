@@ -424,7 +424,7 @@
     </div>
 
     <script type="module">
-        import fpCode from '../src/flowerpassword.ts';
+        import { fpCode } from '../src/flowerPassword.ts';
 
         // Update version from package.json
         fetch('../package.json')
@@ -466,7 +466,7 @@
         });
 
         // Form submission
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const password = passwordInput.value;
@@ -478,19 +478,23 @@
                 return;
             }
 
-            // Generate password
-            const generated = fpCode(password, key, length);
+            try {
+                // Generate password (async)
+                const generated = await fpCode(password, key, length);
 
-            // Display result
-            generatedPassword.textContent = generated;
-            result.classList.add('show');
+                // Display result
+                generatedPassword.textContent = generated;
+                result.classList.add('show');
 
-            // Update stats
-            updateStats(generated);
+                // Update stats
+                updateStats(generated);
 
-            // Reset copy button
-            copyBtn.textContent = 'Copy';
-            copyBtn.classList.remove('copied');
+                // Reset copy button
+                copyBtn.textContent = 'Copy';
+                copyBtn.classList.remove('copied');
+            } catch (err) {
+                alert('Error generating password: ' + err.message);
+            }
         });
 
         // Copy to clipboard

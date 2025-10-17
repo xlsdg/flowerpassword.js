@@ -55,7 +55,7 @@ Click any example to auto-fill and generate!
 ## Hot Reload Workflow
 
 1. **Start dev server**: `npm run dev`
-2. **Edit source code**: Modify `src/flowerpassword.ts`
+2. **Edit source code**: Modify `src/flowerPassword.ts`
 3. **See changes instantly**: Browser auto-updates without refresh
 4. **Debug easily**: Check browser console for logs
 
@@ -64,7 +64,7 @@ Click any example to auto-fill and generate!
 ### Testing Algorithm Changes
 
 ```typescript
-// Edit src/flowerpassword.ts
+// Edit src/flowerPassword.ts
 const MAGIC_STRING = "your_new_string";  // Change this
 // Save file → Browser updates automatically!
 ```
@@ -88,7 +88,7 @@ The playground automatically fetches and displays the version from `package.json
 
 ```bash
 # Old workflow
-1. Edit src/flowerpassword.ts
+1. Edit src/flowerPassword.ts
 2. npm run build
 3. Open example/index.html manually in browser
 4. See basic "document.write" output
@@ -100,7 +100,7 @@ The playground automatically fetches and displays the version from `package.json
 ```bash
 # New workflow
 1. npm run dev (once)
-2. Edit src/flowerpassword.ts
+2. Edit src/flowerPassword.ts
 3. See changes instantly in beautiful UI
 4. Test with interactive forms
 5. Copy generated passwords easily
