@@ -63,6 +63,20 @@ const password = fpCode('myMasterPassword', 'google.com', 16);
 console.log(password);
 ```
 
+### Electron
+
+The package works seamlessly in Electron applications (both main and renderer processes):
+
+```javascript
+// Main process or Renderer process
+const fpCode = require('flowerpassword.js');
+// or
+import fpCode from 'flowerpassword.js';
+
+const password = fpCode('myMasterPassword', 'github.com', 16);
+console.log(password);
+```
+
 ### Browser (UMD)
 
 ```html
@@ -83,11 +97,15 @@ Generates a unique password based on your master password and a key (typically a
 
 - **password** `string` (required) - Your master password
 - **key** `string` (required) - A unique identifier, typically the website domain (e.g., "github.com")
-- **length** `number` (optional) - Desired password length, must be between 2 and 32. Default: `16`
+- **length** `number` (optional) - Desired password length, must be an integer between 2 and 32. Default: `16`
 
 #### Returns
 
 - `string` - The generated password
+
+#### Throws
+
+- `Error` - If length is not an integer or is outside the range 2-32
 
 #### Type Signature
 
@@ -95,8 +113,7 @@ Generates a unique password based on your master password and a key (typically a
 function fpCode(
   password: string,
   key: string,
-  length?: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
-         17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32
+  length?: number
 ): string
 ```
 
@@ -175,17 +192,29 @@ npm run dev:lib
 
 ## TypeScript
 
-This package includes TypeScript definitions out of the box. The `Length` type ensures you only pass valid length values (2-32):
+This package includes TypeScript definitions out of the box. The function performs runtime validation to ensure you only use valid length values (2-32):
 
 ```typescript
 import fpCode from 'flowerpassword.js';
 
-// ✅ Valid
+// ✅ Valid - integers between 2 and 32
 const password1 = fpCode('master', 'site.com', 16);
 const password2 = fpCode('master', 'site.com', 32);
+const password3 = fpCode('master', 'site.com', 2);
 
-// ❌ TypeScript error: Type '50' is not assignable to Length
-const password3 = fpCode('master', 'site.com', 50);
+// ❌ Throws Error: Length must be between 2 and 32
+try {
+  const password4 = fpCode('master', 'site.com', 50);
+} catch (error) {
+  console.error(error.message); // "Length must be between 2 and 32, got: 50"
+}
+
+// ❌ Throws Error: Length must be an integer
+try {
+  const password5 = fpCode('master', 'site.com', 16.5);
+} catch (error) {
+  console.error(error.message); // "Length must be an integer, got: 16.5"
+}
 ```
 
 ## Browser Compatibility
