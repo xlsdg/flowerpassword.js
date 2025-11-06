@@ -37,6 +37,7 @@ Version 4.0.0 removes the `blueimp-md5` dependency and uses native crypto APIs i
 ### Browser Code
 
 **Before (v3.x):**
+
 ```javascript
 import fpCode from 'flowerpassword.js';
 
@@ -47,6 +48,7 @@ function handleClick() {
 ```
 
 **After (v4.x):**
+
 ```javascript
 import { fpCode } from 'flowerpassword.js';
 
@@ -65,12 +67,14 @@ function handleClick() {
 ### Node.js Code (Synchronous)
 
 **Before (v3.x):**
+
 ```javascript
 const fpCode = require('flowerpassword.js');
 const password = fpCode("mypassword", "github.com", 16);
 ```
 
 **After (v4.x):**
+
 ```javascript
 const { fpCodeSync } = require('flowerpassword.js');
 const password = fpCodeSync("mypassword", "github.com", 16);
@@ -79,12 +83,14 @@ const password = fpCodeSync("mypassword", "github.com", 16);
 ### Node.js Code (Asynchronous)
 
 **Before (v3.x):**
+
 ```javascript
 const fpCode = require('flowerpassword.js');
 const password = fpCode("mypassword", "github.com", 16);
 ```
 
 **After (v4.x):**
+
 ```javascript
 // CommonJS
 const { fpCode } = require('flowerpassword.js');
@@ -98,12 +104,14 @@ async function getPassword() {
 ### ES Modules (Node.js)
 
 **Before (v3.x):**
+
 ```javascript
 import fpCode from 'flowerpassword.js';
 const password = fpCode("mypassword", "github.com", 16);
 ```
 
 **After (v4.x):**
+
 ```javascript
 // Option 1: Use async
 import { fpCode } from 'flowerpassword.js';
@@ -170,10 +178,10 @@ If you encounter issues, you can temporarily rollback:
 npm install flowerpassword.js@3.0.12
 ```
 
-Then file an issue at: https://github.com/xlsdg/flowerpassword.js/issues
+Then file an issue at: <https://github.com/xlsdg/flowerpassword.js/issues>
 
 ## Need Help?
 
 - **Documentation**: See [CLAUDE.md](./CLAUDE.md)
-- **Issues**: https://github.com/xlsdg/flowerpassword.js/issues
+- **Issues**: <https://github.com/xlsdg/flowerpassword.js/issues>
 - **Examples**: Check [example/index.html](./example/index.html)
