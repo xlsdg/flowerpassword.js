@@ -182,6 +182,5 @@ Then file an issue at: <https://github.com/xlsdg/flowerpassword.js/issues>
 
 ## Need Help?
 
-- **Documentation**: See [CLAUDE.md](./CLAUDE.md)
 - **Issues**: <https://github.com/xlsdg/flowerpassword.js/issues>
 - **Examples**: Check [example/index.html](./example/index.html)
